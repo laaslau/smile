@@ -4,7 +4,7 @@
 #include <filesystem>
 
 
-namespace Y::Logger
+namespace My::Logger
 {
 
 

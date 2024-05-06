@@ -13,7 +13,6 @@
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-using namespace Y::Toolbox;
 
 namespace My::Gui
 {
@@ -185,7 +184,7 @@ namespace My::Gui
 	
 	bool GuiContainer::init()
 	{
-		static constexpr Rctngl DFLT__{ 50, 10, 1800, 1180 };
+		static constexpr My::Toolbox::Rctngl DFLT__{ 50, 10, 1800, 1180 };
 
 		ImGui::CreateContext();
 
@@ -194,7 +193,7 @@ namespace My::Gui
 		m_wc = { sizeof(m_wc), CS_CLASSDC, GuiContainer::WindowProc, 0L, 0L, GetModuleHandle(nullptr), nullptr, nullptr, nullptr, nullptr, L"YRoulette", nullptr };
 		::RegisterClassExW(&m_wc);
 
-		Rctngl r = retrieveMainWinCoord(DFLT__);
+		My::Toolbox::Rctngl r = retrieveMainWinCoord(DFLT__);
 		if (!isPointVisible(r.x, r.y))
 		{
 			r = DFLT__;

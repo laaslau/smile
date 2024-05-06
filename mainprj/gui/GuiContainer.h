@@ -62,7 +62,7 @@ namespace My::Gui
 		WNDCLASSEXW m_wc{};
 		UINT  m_ResizeWidth{};
 		UINT  m_ResizeHeight{};
-		Y::Toolbox::Rctngl m_size{};
+		My::Toolbox::Rctngl m_size{};
 		bool m_sizeChanged{};
 		void storeWinPlace(HWND h);
 		bool isPointVisibleOnDisplay(int x, int y, RECT displayRect) const;

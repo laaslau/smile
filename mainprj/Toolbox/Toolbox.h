@@ -21,7 +21,7 @@ namespace My::Toolbox
 	void saveMainWinCoord(const Rctngl& r);
 	const Rctngl retrieveMainWinCoord(const Rctngl& r);
 
-
+	std::filesystem::path exePathA();
 	void writeStringPar(const char* sect, const char* key, const std::string& val);
 	std::string readStringPar(const char* sect, const char* key, const std::string& valDef);
 

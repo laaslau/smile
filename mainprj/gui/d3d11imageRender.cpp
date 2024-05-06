@@ -106,7 +106,7 @@ namespace My::Gui
 
 		ID3D11ShaderResourceView* shaderResourceView{};
 
-		Y::Toolbox::unlocker ulck(lock);
+		My::Toolbox::unlocker ulck(lock);
 		{
 			m_desc.Width = m_width;
 			m_desc.Height = m_height;
@@ -146,7 +146,7 @@ namespace My::Gui
 
 	}
 
-	bool RenderThread::frame(Y::IFace::frameCallback callb)
+	bool RenderThread::frame(frameCallback callb)
 	{
 		std::lock_guard lock(m_mtx);
 		while (m_views.size() > 1)

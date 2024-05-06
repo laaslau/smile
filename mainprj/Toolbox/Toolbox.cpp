@@ -10,6 +10,12 @@
 
 namespace My::Toolbox
 {
+	std::filesystem::path exePathA()
+	{
+		char path[MAX_PATH];
+		GetModuleFileNameA(NULL, path, MAX_PATH);
+		return { path };
+	}
 
 	std::filesystem::path exePath()
 	{

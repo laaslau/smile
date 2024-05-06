@@ -8,6 +8,15 @@
 
 namespace My::Gui
 {
+	using frameCallback = std::function<void(uint64_t, const uint8_t*, uint32_t, uint32_t)>;
+	class IVideoSource
+	{
+	public:
+		virtual ~IVideoSource() {}
+		virtual bool frame(frameCallback) = 0;
+		virtual float frameRate() = 0;
+	};
+
 
 	struct RenderImageDat
 	{
@@ -24,7 +33,7 @@ namespace My::Gui
 	class ImageRender
 	{
 		ID3D11Device* const m_pd3dDevice{};
-		Y::IFace::IVideoSource* const m_image{};
+		IVideoSource* const m_image{};
 
 		ID3D11ShaderResourceView* m_shaderResourceView{};
 		uint64_t m_imageID{};
@@ -35,7 +44,7 @@ namespace My::Gui
 
 	public:
 		ImageRender() = delete;
-		ImageRender(ID3D11Device* dev, Y::IFace::IVideoSource* image) : m_pd3dDevice{ dev }, m_image{ image }
+		ImageRender(ID3D11Device* dev, IVideoSource* image) : m_pd3dDevice{ dev }, m_image{ image }
 		{}
 		~ImageRender();
 		ID3D11ShaderResourceView* render(float left, float top, float width, float height);
@@ -57,7 +66,7 @@ namespace My::Gui
 		D3D11_SUBRESOURCE_DATA m_subResource{};
 
 		bool onDataApplied(std::unique_lock<std::mutex>& lock) override;
-		bool frame(Y::IFace::frameCallback);
+		bool frame(frameCallback callback);
 		
 	};
 

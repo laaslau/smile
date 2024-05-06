@@ -12,11 +12,14 @@ add_library(${PROJECTNAME}
 	d3d11imageRender.h
 	GuiHelper.cpp
 	GuiHelper.h
-
+	fontdata.cpp
+	fontdata.h
+	GuiMainWindow.cpp
+	GuiMainWindow.h
 	)
 
 target_include_directories(${PROJECTNAME} PRIVATE
 	"${PROJECT_SOURCE_DIR}/ImGui"
 	"${PROJECT_SOURCE_DIR}/Toolbox"
-#	"${PROJECT_SOURCE_DIR}/Interfaces"
+	"${PROJECT_SOURCE_DIR}/common"
 	)
