@@ -9,6 +9,7 @@
 
 namespace My::CvLib
 {
+	using namespace std::chrono_literals;
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
 	//
@@ -23,8 +24,6 @@ namespace My::CvLib
 	{
 		stop();
 	}
-
-	using namespace std::chrono_literals;
 
 	void VideoSource::threadFn()
 	{

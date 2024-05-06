@@ -12,9 +12,10 @@ namespace My::CvLib
 	class StreamData : public IStreamData
 	{
 		StringList m_streamNames;
-		void store() {}
-		void retieve() {}
+		void store();
+		void retrieve();
 	public:
+		StreamData();
 		const std::string& getStreamName() const override;
 		void setStreamName(const std::string& name) override;
 		const StringList& getStreamNames() const override;

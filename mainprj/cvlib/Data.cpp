@@ -16,7 +16,43 @@ namespace My::CvLib
 	//
 	//
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
-	static constexpr std::size_t STREAM_NAMES_MAX = 10;
+	namespace
+	{
+		constexpr std::size_t STREAM_NAMES_MAX = 10;
+		constexpr char STREAMS_SECTION[] = "Streams";
+		constexpr char STREAM_PAR[] = "Stream";
+	}
+
+
+	StreamData::StreamData()
+	{
+		retrieve();
+	}
+	void StreamData::store()
+	{
+		for (auto [i, d] : m_streamNames | std::views::enumerate)
+		{
+			if (!d.empty())
+			{
+				My::Toolbox::writeStringPar(STREAMS_SECTION, std::format("{}{}", STREAM_PAR, i).c_str(), d);
+			}
+		}
+	}
+
+	void StreamData::retrieve()
+	{
+		for (int inx = 0; inx < STREAM_NAMES_MAX; inx++)
+		{
+			const auto& s = My::Toolbox::readStringPar(STREAMS_SECTION, std::format("{}{}", STREAM_PAR, inx).c_str(), "");
+			if (s.empty())
+			{
+				break;
+			}
+			m_streamNames.push_back(s);
+		}
+	}
+
+
 
 	const std::string& StreamData::getStreamName() const
 	{
