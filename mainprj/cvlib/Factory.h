@@ -10,35 +10,6 @@ namespace My::CvLib
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////
 	IStreamData* getStreamData();
 	IStreamControl* getStreamControl();
-
-
-
-	///////////////////////////////////////////////////////////////////////////////////////////////////////
-	//
-	//
-	///////////////////////////////////////////////////////////////////////////////////////////////////////
-	class StreamData : public IStreamData
-	{
-		StringList m_streamNames;
-		void store() {}
-		void retieve() {}
-	public:
-		const std::string& getStreamName() const override;
-		void setStreamName(const std::string& name) override;
-		const StringList& getStreamNames() const override;
-	};
-
-	class StreamControl : public IStreamControl
-	{
-		IVideoSource* m_videoPtr{};
-		IStreamData* m_dataPtr{};
-		bool m_running{};
-	public:
-		StreamControl() = delete;
-		StreamControl(IStreamData* dataPtr, IVideoSource* videoPtr) : m_dataPtr{dataPtr}, m_videoPtr { videoPtr } {}
-
-		bool run(bool start) override;
-		bool isRunning() const override;
-	};
+	IVideoSource* getVideoSource();
 }
 

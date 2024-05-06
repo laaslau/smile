@@ -15,14 +15,14 @@ namespace My::CvLib
 	//
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	VideoSource::VideoSource()
-	{}
+	VideoSource::VideoSource(const std::vector<IFrameProcessor*>& processors) : m_processors{ processors }
+	{
+	}
 
 	VideoSource::~VideoSource()
 	{
 		stop();
 	}
-
 
 	using namespace std::chrono_literals;
 
@@ -31,15 +31,11 @@ namespace My::CvLib
 
 		while (!m_exit.test())
 		{
-
 			cv::Mat mat;
-			cv::Mat matHalf;
 
 			if (m_source.read(mat))
 			{
-
-				//m_procs.frame(mat);
-
+				std::ranges::for_each(m_processors, [&mat](auto* processor) {processor->onFrame(mat); });
 			}
 			else
 			{
@@ -100,6 +96,51 @@ namespace My::CvLib
 	}
 
 
+	///////////////////////////////////////////////////////////////////////////////////////////////////////
+	//
+	//
+	///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	void VideoBGRA::onFrame(const cv::Mat& frame)
+	{
+		{
+			std::lock_guard lock(m_mtx);
+			frame.copyTo(m_inputMat);
+			m_data.test_and_set();
+		}
+		m_condition.notify_one();
+	}
+
+	bool VideoBGRA::frame(frameCallback callback)
+	{
+		std::lock_guard lock(m_mtx);
+		if (m_mat.empty())
+		{
+			return false;
+		}
+
+		callback(m_frameId, m_mat.ptr(), static_cast<uint32_t>(m_mat.cols), static_cast<uint32_t>(m_mat.rows));
+		return true;
+	}
+
+	float VideoBGRA::frameRate()
+	{
+		return m_rate;
+	}
+
+
+	bool VideoBGRA::onDataApplied(std::unique_lock<std::mutex>& /*lock*/)
+	{
+		m_data.clear();
+		if (m_inputMat.empty())
+		{
+			return true;
+		}
+		cv::cvtColor(m_inputMat, m_mat, cv::COLOR_BGR2BGRA);
+		m_frameId++;
+		m_rate.hit();
+		return true;
+	}
 }
 
 

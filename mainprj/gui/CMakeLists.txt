@@ -16,6 +16,8 @@ add_library(${PROJECTNAME}
 	fontdata.h
 	GuiMainWindow.cpp
 	GuiMainWindow.h
+	GuiVideoWindow.cpp
+	GuiVideoWindow.h
 	)
 
 target_include_directories(${PROJECTNAME} PRIVATE

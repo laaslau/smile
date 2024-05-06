@@ -256,17 +256,6 @@ namespace My::Gui
 		return true;
 	}
 
-// |Main            |Ball              |
-// |   Tasks        |  Color White     |
-// |                |    Ball Par      |
-// |                |                  |
-// |----------------|------------------|
-// |Video           |Zero              |
-// |                |  Color Green     |
-// |                |    Rect Par      |
-// |                |                  |
-// |                |                  |
-
 
 	void GuiContainer::initDockSpace(ImGuiID dockSpaceId) 
 	{
@@ -279,20 +268,10 @@ namespace My::Gui
 		// left pane
 		ImGuiID dockLeftUp{};
 		ImGuiID dockLeftDown{};
-		ImGui::DockBuilderSplitNode(dockLeft, ImGuiDir_Up, 0.4f, &dockLeftUp, &dockLeftDown);
+		ImGui::DockBuilderSplitNode(dockLeft, ImGuiDir_Up, 0.1f, &dockLeftUp, &dockLeftDown);
 
-		ImGuiID dockLeftUpUp{};
-		ImGuiID dockLeftUpDown{};
-		ImGui::DockBuilderSplitNode(dockLeftUp, ImGuiDir_Up, 0.6f, &dockLeftUpUp, &dockLeftUpDown);
-
-
-		ImGui::DockBuilderDockWindow("Main", dockLeftUpUp);
-		ImGui::DockBuilderDockWindow("Tasks", dockLeftUpDown);
-
+		ImGui::DockBuilderDockWindow("Main", dockLeftUp);
 		ImGui::DockBuilderDockWindow("Video", dockLeftDown);
-
-		
-		
 
 		
 		// right pane

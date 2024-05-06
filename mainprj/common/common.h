@@ -3,6 +3,7 @@
 #include <string>
 #include <list>
 #include <optional>
+#include <functional>
 
 using StringList = std::list<std::string>;
 
@@ -24,11 +25,21 @@ namespace My::Common
 		virtual bool isRunning() const = 0;
 	};
 
-	class IVideoSource
+	class IVideoDevice
 	{
 	public:
 		virtual bool start(const std::string& name) = 0;
 		virtual void stop() = 0;
 	};
+
+	using frameCallback = std::function<void(uint64_t, const uint8_t*, uint32_t, uint32_t)>;
+	class IVideoSource
+	{
+	public:
+		virtual ~IVideoSource() {}
+		virtual bool frame(frameCallback) = 0;
+		virtual float frameRate() = 0;
+	};
+
 
 }

@@ -14,6 +14,8 @@ message(STATUS "library directory: ${OpenCV_LIBS}")
 add_library(${ProjectName}
 	Video.cpp
 	Video.h
+	Data.cpp
+	Data.h
 	Factory.cpp
 	Factory.h
 	)

@@ -3,6 +3,7 @@
 #include "YPLogger.h"
 #include "GuiContainer.h"
 #include "GuiMainWindow.h"
+#include "GuiVideoWindow.h"
 #include "Factory.h"
 
 
@@ -19,6 +20,7 @@ static int mine()
 	My::Gui::GuiContainer container("cvbench", "1.0.0.0");
 
 	container.add("main", new My::Gui::MainWindow(&container, My::CvLib::getStreamData(), My::CvLib::getStreamControl()));
+	container.add("video", new My::Gui::VideoWindow("Video", My::CvLib::getVideoSource()));
 
 	while (container.render()) {}
 	

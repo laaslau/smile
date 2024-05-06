@@ -1,5 +1,6 @@
 #pragma once
 #include "Toolbox.h"
+#include "common.h"
 #include <list>
 #include <d3d11.h>
 #include <utility>
@@ -8,15 +9,7 @@
 
 namespace My::Gui
 {
-	using frameCallback = std::function<void(uint64_t, const uint8_t*, uint32_t, uint32_t)>;
-	class IVideoSource
-	{
-	public:
-		virtual ~IVideoSource() {}
-		virtual bool frame(frameCallback) = 0;
-		virtual float frameRate() = 0;
-	};
-
+	using namespace My::Common;
 
 	struct RenderImageDat
 	{
