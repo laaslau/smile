@@ -1,6 +1,7 @@
 #include "GuiContainer.h"
 #include "IconsFontAwesome5.h"
 #include "fontdata.h"
+#include "YPLogger.h"
 #include "imgui_internal.h"
 #include "imgui_impl_win32.h"
 #include "imgui_impl_dx11.h"
@@ -115,20 +116,20 @@ namespace My::Gui
 		{
 		case WM_ENTERSIZEMOVE:
 
-			std::cout << "onmove true\n";
+			PLOGD << "WM_ENTERSIZEMOVE";
 			startThread();
 			return 0;
 
 		case WM_EXITSIZEMOVE:
 
-			std::cout << "onmove false\n";
+			PLOGD << "WM_EXITSIZEMOVE";
 			stopThread();
 			return 0;
 
 		case WM_SIZE:
 			if (wParam == SIZE_MINIMIZED)
 			{
-				std::cout << "SIZE_MINIMIZED";
+				PLOGD << "SIZE_MINIMIZED";
 				return 0;
 			}
 
@@ -139,7 +140,6 @@ namespace My::Gui
 		case WM_MOVE:
 
 			storeWinPlace(hWnd);
-			//std::cout << std::format("{}---------------[{},{},{},{}]----------------\n", msg == WM_SIZE ? "SIZE" : "MOVE", g_size.x, g_size.y, g_size.w, g_size.h);
 			return 0;
 
 		case WM_SYSCOMMAND:

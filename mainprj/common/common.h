@@ -2,7 +2,6 @@
 
 #include <string>
 #include <list>
-#include <optional>
 #include <functional>
 
 using StringList = std::list<std::string>;

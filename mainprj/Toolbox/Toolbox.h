@@ -84,12 +84,12 @@ namespace My::Toolbox
 	class OneFunThrd
 	{
 	protected:
-		std::thread m_thread{};
-		std::atomic_flag m_data{};
 		mutable std::mutex m_mtx{};
-		std::condition_variable m_condition{};
 
 	private:
+		std::thread m_thread{};
+		std::atomic_flag m_data{};
+		std::condition_variable m_condition{};
 		std::atomic_flag m_exit{};
 
 		void threadFn();
@@ -97,7 +97,7 @@ namespace My::Toolbox
 
 	protected:
 
-
+		void hit();
 
 		void start();
 		void stop();

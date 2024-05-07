@@ -24,4 +24,5 @@ target_include_directories(${PROJECTNAME} PRIVATE
 	"${PROJECT_SOURCE_DIR}/ImGui"
 	"${PROJECT_SOURCE_DIR}/Toolbox"
 	"${PROJECT_SOURCE_DIR}/common"
+	"${PROJECT_SOURCE_DIR}/ext/log"
 	)

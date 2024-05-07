@@ -43,7 +43,7 @@ namespace My::Gui
 			m_videoSource.setText(m_data->getStreamName());
 		}
 
-		ImGui::Begin(m_name.c_str(), &m_visible);
+		ImGui::Begin(m_name.c_str());
 
 		ImGui::BeginDisabled(m_control->isRunning());
 

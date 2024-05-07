@@ -105,9 +105,9 @@ namespace My::CvLib
 		{
 			std::lock_guard lock(m_mtx);
 			frame.copyTo(m_inputMat);
-			m_data.test_and_set();
 		}
-		m_condition.notify_one();
+
+		hit();
 	}
 
 	bool VideoBGRA::frame(frameCallback callback)
@@ -130,7 +130,6 @@ namespace My::CvLib
 
 	bool VideoBGRA::onDataApplied(std::unique_lock<std::mutex>& /*lock*/)
 	{
-		m_data.clear();
 		if (m_inputMat.empty())
 		{
 			return true;
