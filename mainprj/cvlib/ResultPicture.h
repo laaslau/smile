@@ -6,6 +6,7 @@
 
 #include <tuple>
 #include <vector>
+#include <chrono>
 
 namespace My::CvLib
 {
@@ -14,6 +15,9 @@ namespace My::CvLib
 	{
 		cv::Mat m_matSmile;
 		cv::Mat m_matSerious;
+
+		std::chrono::steady_clock::time_point m_smiledTime;
+		bool m_smiled{};
 
 		My::Common::IStreamData* m_data{};
 

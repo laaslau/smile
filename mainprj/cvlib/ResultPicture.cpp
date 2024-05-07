@@ -19,15 +19,32 @@ namespace My::CvLib
 
 	}
 
+	
 	bool ResultPicture::frame(My::Common::frameCallback callback)
 	{
 		if (m_data->getFaces() == 0)
 		{
 			return false;
 		}
-		int smileInx = (m_data->getSmiles() == 0) ? 1 : 0;
-		auto [p, w, h] = getPic((smileInx == 0));
-		callback(static_cast<uint64_t>(smileInx), p, w, h);
+
+		bool smiledNow = (m_data->getSmiles() > 0);
+
+		if (smiledNow)
+		{
+			m_smiledTime = std::chrono::steady_clock::now();
+		}
+		else
+		{
+			using namespace std::chrono_literals;
+			if (std::chrono::steady_clock::now() - m_smiledTime < 1000ms)
+			{
+				smiledNow = true;
+			}
+		}
+
+		m_smiled = smiledNow;
+		auto [p, w, h] = getPic(smiledNow);
+		callback(smiledNow ? 5 : 10, p, w, h);
 		return true;
 	}
 
