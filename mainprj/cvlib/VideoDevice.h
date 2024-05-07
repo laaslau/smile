@@ -23,7 +23,7 @@ namespace My::CvLib
 	//
 	//
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////
-	class VideoSource : public My::Common::IVideoDevice
+	class VideoDevice : public My::Common::IVideoDevice
 	{
 
 		std::thread m_thread{};
@@ -38,9 +38,9 @@ namespace My::CvLib
 
 	public:
 
-		VideoSource() = default;
-		VideoSource(const std::vector<IFrameProcessor*>& processors);
-		~VideoSource();
+		VideoDevice() = default;
+		VideoDevice(const std::vector<IFrameProcessor*>& processors);
+		~VideoDevice();
 
 		bool start(const std::string& name) override;
 		void stop() override;

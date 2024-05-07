@@ -1,7 +1,7 @@
 #pragma once
 #include "common.h"
 #include "Toolbox.h"
-#include "VideoSource.h"
+#include "VideoDevice.h"
 #include <opencv2/opencv.hpp>
 #include <opencv2/highgui.hpp>
 

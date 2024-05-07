@@ -1,6 +1,6 @@
 #include "Factory.h"
 #include "VideoBGRA.h"
-#include "VideoSource.h"
+#include "VideoDevice.h"
 #include "Data.h"
 #include "YPLogger.h"
 #include "Toolbox.h"
@@ -14,7 +14,7 @@ namespace My::CvLib
 
 	static StreamData g_streamData;
 	static VideoBGRA g_videoBGRA;
-	static VideoSource g_videoSource({ &g_videoBGRA });
+	static VideoDevice g_videoSource({ &g_videoBGRA });
 	static StreamControl g_streamControl(&g_streamData, &g_videoSource);
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
 	//

@@ -11,8 +11,8 @@ find_package(OpenCV REQUIRED)
 message(STATUS "include directory: ${OpenCV_INCLUDE_DIRS}")
 
 add_library(${ProjectName}
-	VideoSource.cpp
-	VideoSource.h
+	VideoDevice.cpp
+	VideoDevice.h
 	VideoBGRA.cpp
 	VideoBGRA.h	
 	Data.cpp

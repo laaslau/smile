@@ -1,4 +1,4 @@
-#include "VideoSource.h"
+#include "VideoDevice.h"
 #include "YPLogger.h"
 #include "Toolbox.h"
 #include <algorithm>
@@ -7,16 +7,16 @@
 namespace My::CvLib
 {
 
-	VideoSource::VideoSource(const std::vector<IFrameProcessor*>& processors) : m_processors{ processors }
+	VideoDevice::VideoDevice(const std::vector<IFrameProcessor*>& processors) : m_processors{ processors }
 	{
 	}
 
-	VideoSource::~VideoSource()
+	VideoDevice::~VideoDevice()
 	{
 		stop();
 	}
 
-	void VideoSource::threadFn()
+	void VideoDevice::threadFn()
 	{
 
 		while (!m_exit.test())
@@ -36,7 +36,7 @@ namespace My::CvLib
 		m_exit.clear();
 	}
 
-	bool VideoSource::startStream()
+	bool VideoDevice::startStream()
 	{
 		std::optional<int> num = std::nullopt;
 		try
@@ -65,16 +65,16 @@ namespace My::CvLib
 		return true;
 	}
 
-	bool VideoSource::start(const std::string& name)
+	bool VideoDevice::start(const std::string& name)
 	{
 		m_sourceName = name;
 
 		startStream();
-		m_thread = std::thread(&VideoSource::threadFn, this);
+		m_thread = std::thread(&VideoDevice::threadFn, this);
 		return true;
 	}
 
-	void VideoSource::stop()
+	void VideoDevice::stop()
 	{
 		if (m_thread.joinable())
 		{
