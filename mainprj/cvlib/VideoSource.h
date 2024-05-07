@@ -9,12 +9,9 @@
 #include <atomic>
 #include <memory>
 #include <vector>
-#include <condition_variable>
-#include <chrono>
 
 namespace My::CvLib
 {
-	using namespace My::Common;
 
 	class IFrameProcessor
 	{
@@ -51,31 +48,5 @@ namespace My::CvLib
 
 	};
 
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//
-	//
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////
-	class VideoBGRA : public My::Toolbox::OneFunThrd, public IFrameProcessor, public IVideoSource
-	{
-
-		My::Toolbox::HitRate m_rate;
-		uint64_t m_frameId{};
-
-		cv::Mat m_mat{};
-		cv::Mat m_inputMat{};
-
-		// My::Toolbox::OneFunThrd
-		bool onDataApplied(std::unique_lock<std::mutex>& lock) override;
-
-	public:
-		VideoBGRA() { start(); }
-		~VideoBGRA() { stop(); }
-		// public IFrameProcessor
-		void onFrame(const cv::Mat& frame) override;
-
-		// public IVideoSource
-		bool frame(frameCallback) override;
-		float frameRate() override;
-	};
 }
 

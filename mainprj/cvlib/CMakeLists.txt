@@ -9,11 +9,12 @@ set(OpenCV_DIR "c:/gitrepo/opencv_install/install/opencv")
 find_package(OpenCV REQUIRED)
 
 message(STATUS "include directory: ${OpenCV_INCLUDE_DIRS}")
-message(STATUS "library directory: ${OpenCV_LIBS}")
 
 add_library(${ProjectName}
-	Video.cpp
-	Video.h
+	VideoSource.cpp
+	VideoSource.h
+	VideoBGRA.cpp
+	VideoBGRA.h	
 	Data.cpp
 	Data.h
 	Factory.cpp
@@ -32,7 +33,12 @@ target_link_libraries(${ProjectName}
 	)
 
 set(OpenCV_BIN_DIR "${OpenCV_DIR}/x64/vc17/bin")
+set(OpenCV_CASCADE_DIR "${OpenCV_DIR}/etc/haarcascades")
+
 install(FILES 
 	"${OpenCV_BIN_DIR}/$<$<CONFIG:Debug>:opencv_world490d.dll>$<$<CONFIG:Release>:opencv_world490.dll>"
 	"${OpenCV_BIN_DIR}/opencv_videoio_ffmpeg490_64.dll"
+	"${OpenCV_CASCADE_DIR}/haarcascade_frontalface_default.xml"
+	"${OpenCV_CASCADE_DIR}/haarcascade_eye.xml"
+	"${OpenCV_CASCADE_DIR}/haarcascade_smile.xml"
 	DESTINATION "${PROJECT_BINARY_DIR}/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>")

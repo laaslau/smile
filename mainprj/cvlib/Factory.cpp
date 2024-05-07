@@ -1,5 +1,6 @@
 #include "Factory.h"
-#include "Video.h"
+#include "VideoBGRA.h"
+#include "VideoSource.h"
 #include "Data.h"
 #include "YPLogger.h"
 #include "Toolbox.h"

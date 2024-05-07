@@ -1,20 +1,11 @@
-#include "Video.h"
+#include "VideoSource.h"
 #include "YPLogger.h"
 #include "Toolbox.h"
 #include <algorithm>
-#include <format>
-#include <vector>
-
-
+#include <optional>
 
 namespace My::CvLib
 {
-	using namespace std::chrono_literals;
-
-	///////////////////////////////////////////////////////////////////////////////////////////////////////
-	//
-	//
-	///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	VideoSource::VideoSource(const std::vector<IFrameProcessor*>& processors) : m_processors{ processors }
 	{
@@ -94,51 +85,4 @@ namespace My::CvLib
 		m_source.release();
 	}
 
-
-	///////////////////////////////////////////////////////////////////////////////////////////////////////
-	//
-	//
-	///////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	void VideoBGRA::onFrame(const cv::Mat& frame)
-	{
-		{
-			std::lock_guard lock(m_mtx);
-			frame.copyTo(m_inputMat);
-		}
-
-		hit();
-	}
-
-	bool VideoBGRA::frame(frameCallback callback)
-	{
-		std::lock_guard lock(m_mtx);
-		if (m_mat.empty())
-		{
-			return false;
-		}
-
-		callback(m_frameId, m_mat.ptr(), static_cast<uint32_t>(m_mat.cols), static_cast<uint32_t>(m_mat.rows));
-		return true;
-	}
-
-	float VideoBGRA::frameRate()
-	{
-		return m_rate;
-	}
-
-
-	bool VideoBGRA::onDataApplied(std::unique_lock<std::mutex>& /*lock*/)
-	{
-		if (m_inputMat.empty())
-		{
-			return true;
-		}
-		cv::cvtColor(m_inputMat, m_mat, cv::COLOR_BGR2BGRA);
-		m_frameId++;
-		m_rate.hit();
-		return true;
-	}
 }
-
-
