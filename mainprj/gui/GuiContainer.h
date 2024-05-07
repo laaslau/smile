@@ -15,7 +15,7 @@
 
 namespace My::Gui
 {
-	static constexpr ImGuiCond WIN_APPEARANCE = ImGuiCond_FirstUseEver; // ImGuiCond_FirstUseEver;  //ImGuiCond_Once;
+	static constexpr ImGuiCond WIN_APPEARANCE = ImGuiCond_FirstUseEver; 
 
 	class IRenderable
 	{
@@ -74,7 +74,7 @@ namespace My::Gui
 	public:	
 		static inline ImFont* m_font{};
 		static inline ImFont* m_fontIcon{};
-		static inline ImFont* m_fontLarge{};
+
 		
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// d3d stuff - single instance 

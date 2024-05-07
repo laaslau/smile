@@ -227,7 +227,6 @@ namespace My::Gui
 
 		
 		m_font = io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\arial.ttf", 16.0f);
-		m_fontLarge = io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\arial.ttf", 42.0f);
 
 		float iconFontSize = 25.0f; // FontAwesome fonts need to have their sizes reduced by 2.0f/3.0f in order to align correctly
 
@@ -263,7 +262,7 @@ namespace My::Gui
 
 		ImGuiID dockLeft{};
 		ImGuiID dockRight{};
-		ImGui::DockBuilderSplitNode(dockSpaceId, ImGuiDir_Left, 0.5f, &dockLeft, &dockRight);
+		ImGui::DockBuilderSplitNode(dockSpaceId, ImGuiDir_Left, 0.8f, &dockLeft, &dockRight);
 
 		// left pane
 		ImGuiID dockLeftUp{};
@@ -296,8 +295,9 @@ namespace My::Gui
 		ImGuiID dockRightDownDownDown{};
 		ImGui::DockBuilderSplitNode(dockRightDownDown, ImGuiDir_Up, 0.5f, &dockRightDownDownUp, &dockRightDownDownDown);
 
-
-		ImGui::DockBuilderDockWindow("Ball", dockRightUpUp);
+		//
+		ImGui::DockBuilderDockWindow("Smile", dockRightUpUp);
+		//
 		ImGui::DockBuilderDockWindow("ColorFilterWhite", dockRightUpDownUp);
 		ImGui::DockBuilderDockWindow("WhiteBallPar", dockRightUpDownDown);
 
@@ -344,7 +344,6 @@ namespace My::Gui
 			m_once = true;
 		}
 
-		ImGui::PushFont(m_fontIcon);
 		ImGui::PushFont(m_font);
 		std::ranges::for_each(m_collection,
 			[&remove](const auto& renderable)
@@ -355,7 +354,6 @@ namespace My::Gui
 			}
 		});
 
-		ImGui::PopFont();
 		ImGui::PopFont();
 
 		finishFrameRender();

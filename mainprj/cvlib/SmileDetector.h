@@ -4,36 +4,47 @@
 #include "VideoDevice.h"
 #include <opencv2/opencv.hpp>
 #include <opencv2/highgui.hpp>
-#include <vector>
+
 
 namespace My::CvLib
 {
 
-	class VideoBGRA : public My::Toolbox::OneFunThrd, public IFrameProcessor, public My::Common::IVideoSource
+	class SmileDetector : public My::Toolbox::OneFunThrd, public IFrameProcessor, public My::Common::IVideoSource, public IContourAdder
 	{
 
 		My::Toolbox::HitRate m_rate;
 		uint64_t m_frameId{};
 
+		std::vector<cv::Rect> m_smiles;
 		cv::Mat m_mat{};
 		cv::Mat m_inputMat{};
 
 		// My::Toolbox::OneFunThrd
 		bool onDataApplied(std::unique_lock<std::mutex>& lock) override;
 
-		std::vector<IContourAdder*> m_contours;
+		// data
+		cv::CascadeClassifier m_faceCascade;
+		cv::CascadeClassifier m_smileCascade;
 
+		bool m_cascadesLoaded{};
+
+		bool loadData();
 
 	public:
-		VideoBGRA(std::vector<IContourAdder*> contours) : m_contours{contours} { start(); }
-		VideoBGRA() { start(); }
-		~VideoBGRA() { stop(); }
+		SmileDetector();
+		~SmileDetector();
+
+		bool isCascadesLoaded() const { return m_cascadesLoaded; }
+
 		// public IFrameProcessor
 		void onFrame(const cv::Mat& frame) override;
 
 		// public IVideoSource
 		bool frame(My::Common::frameCallback) override;
 		float frameRate() override;
+
+		// public IContourAdder
+		int addContours(cv::Mat& frame) const override;
 	};
 }
 

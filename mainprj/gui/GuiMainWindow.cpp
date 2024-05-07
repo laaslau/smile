@@ -73,11 +73,12 @@ namespace My::Gui
 		ImGui::BeginDisabled(m_streams.empty());
 
 		bool running = m_control->isRunning();
-		if (ImGui::Button(running ? "Stop" : "Start"))
+		ImGui::PushFont(GuiContainer::m_fontIcon);
+		if (ImGui::Button(running ? ICON_FA_STOP_CIRCLE" Stop" : ICON_FA_PLAY_CIRCLE" Start"))
 		{
 			m_control->run(!running);
 		}
-
+		ImGui::PopFont();
 		ImGui::EndDisabled();
 
 		ImGui::End();

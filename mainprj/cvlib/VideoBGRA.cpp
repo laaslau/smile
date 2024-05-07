@@ -1,6 +1,7 @@
 #include "VideoBGRA.h"
 #include "YPLogger.h"
 #include "Toolbox.h"
+#include <ranges>
 
 
 namespace My::CvLib
@@ -41,6 +42,7 @@ namespace My::CvLib
 			return true;
 		}
 		cv::cvtColor(m_inputMat, m_mat, cv::COLOR_BGR2BGRA);
+		std::ranges::for_each(m_contours, [&mat = m_mat](const auto* contour) {contour->addContours(mat); });
 		m_frameId++;
 		m_rate.hit();
 		return true;

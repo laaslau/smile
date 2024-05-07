@@ -19,6 +19,13 @@ namespace My::CvLib
 		virtual void onFrame(const cv::Mat& frame) = 0;
 	};
 
+
+	class IContourAdder
+	{
+	public:
+		virtual int addContours(cv::Mat& frame) const = 0;
+	};
+
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//
 	//
