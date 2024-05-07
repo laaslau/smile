@@ -1,6 +1,6 @@
 #pragma once
 #include "common.h"
-
+#include <mutex>
 namespace My::CvLib
 {
 	using namespace My::Common;
@@ -11,6 +11,10 @@ namespace My::CvLib
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
 	class StreamData : public IStreamData
 	{
+		mutable std::mutex m_mtx;
+		int m_faces{};
+		int m_smiles{};
+
 		StringList m_streamNames;
 		void store();
 		void retrieve();
@@ -19,6 +23,13 @@ namespace My::CvLib
 		const std::string& getStreamName() const override;
 		void setStreamName(const std::string& name) override;
 		const StringList& getStreamNames() const override;
+
+
+		const int getFaces() const override;
+		void setFaces(int f) override;
+
+		const int getSmiles() const override;
+		void setSmiles(int s) override;
 	};
 
 	class StreamControl : public IStreamControl

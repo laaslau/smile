@@ -15,6 +15,13 @@ namespace My::Common
 		virtual void setStreamName(const std::string& name) = 0;
 
 		virtual const StringList& getStreamNames() const = 0;
+
+
+		virtual const int getFaces() const = 0;
+		virtual void setFaces(int f) = 0;
+
+		virtual const int getSmiles() const = 0;
+		virtual void setSmiles(int s) = 0;
 	};
 
 	class IStreamControl

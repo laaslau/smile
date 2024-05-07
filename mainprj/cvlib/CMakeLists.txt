@@ -16,7 +16,9 @@ add_library(${ProjectName}
 	VideoBGRA.cpp
 	VideoBGRA.h	
 	SmileDetector.cpp
-	SmileDetector.h		
+	SmileDetector.h	
+	ResultPicture.cpp
+	ResultPicture.h
 	Data.cpp
 	Data.h
 	Factory.cpp
@@ -42,4 +44,5 @@ install(FILES
 	"${OpenCV_BIN_DIR}/opencv_videoio_ffmpeg490_64.dll"
 	"${OpenCV_CASCADE_DIR}/haarcascade_frontalface_default.xml"
 	"${OpenCV_CASCADE_DIR}/haarcascade_smile.xml"
+	"${PROJECT_SOURCE_DIR}/res/smile.jpg"
 	DESTINATION "${PROJECT_BINARY_DIR}/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>")

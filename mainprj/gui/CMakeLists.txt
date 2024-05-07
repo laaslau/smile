@@ -18,6 +18,8 @@ add_library(${PROJECTNAME}
 	GuiMainWindow.h
 	GuiVideoWindow.cpp
 	GuiVideoWindow.h
+	GuiResultWindow.cpp
+	GuiResultWindow.h
 	)
 
 target_include_directories(${PROJECTNAME} PRIVATE

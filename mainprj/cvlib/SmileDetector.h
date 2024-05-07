@@ -19,6 +19,8 @@ namespace My::CvLib
 		cv::Mat m_mat{};
 		cv::Mat m_inputMat{};
 
+		My::Common::IStreamData* m_streamData{};
+
 		// My::Toolbox::OneFunThrd
 		bool onDataApplied(std::unique_lock<std::mutex>& lock) override;
 
@@ -31,7 +33,7 @@ namespace My::CvLib
 		bool loadData();
 
 	public:
-		SmileDetector();
+		SmileDetector(My::Common::IStreamData* data);
 		~SmileDetector();
 
 		bool isCascadesLoaded() const { return m_cascadesLoaded; }

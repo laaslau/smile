@@ -9,5 +9,6 @@ namespace My::CvLib
 	IStreamControl* getStreamControl();
 	IVideoSource* getVideoSource();
 	IVideoSource* getSmiledSource();
+	IVideoSource* getSmilePictogram();
 }
 

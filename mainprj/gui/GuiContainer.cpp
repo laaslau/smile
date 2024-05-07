@@ -278,34 +278,9 @@ namespace My::Gui
 		ImGuiID dockRightDown{};
 		ImGui::DockBuilderSplitNode(dockRight, ImGuiDir_Up, 0.5f, &dockRightUp, &dockRightDown);
 
-		ImGuiID dockRightUpUp{};
-		ImGuiID dockRightUpDown{};
-		ImGui::DockBuilderSplitNode(dockRightUp, ImGuiDir_Up, 0.5f, &dockRightUpUp, &dockRightUpDown);
 
-		ImGuiID dockRightUpDownUp{};
-		ImGuiID dockRightUpDownDown{};
-		ImGui::DockBuilderSplitNode(dockRightUpDown, ImGuiDir_Up, 0.5f, &dockRightUpDownUp, &dockRightUpDownDown);
-
-
-		ImGuiID dockRightDownUp{};
-		ImGuiID dockRightDownDown{};
-		ImGui::DockBuilderSplitNode(dockRightDown, ImGuiDir_Up, 0.5f, &dockRightDownUp, &dockRightDownDown);
-
-		ImGuiID dockRightDownDownUp{};
-		ImGuiID dockRightDownDownDown{};
-		ImGui::DockBuilderSplitNode(dockRightDownDown, ImGuiDir_Up, 0.5f, &dockRightDownDownUp, &dockRightDownDownDown);
-
-		//
-		ImGui::DockBuilderDockWindow("Smile", dockRightUpUp);
-		//
-		ImGui::DockBuilderDockWindow("ColorFilterWhite", dockRightUpDownUp);
-		ImGui::DockBuilderDockWindow("WhiteBallPar", dockRightUpDownDown);
-
-		ImGui::DockBuilderDockWindow("Zero", dockRightDownUp);
-
-		ImGui::DockBuilderDockWindow("ColorFilterGreen", dockRightDownDownUp);
-		ImGui::DockBuilderDockWindow("GreenRectPar", dockRightDownDownDown);
-
+		ImGui::DockBuilderDockWindow("Smile", dockRightUp);
+		ImGui::DockBuilderDockWindow("Result", dockRightDown);
 
 
 		ImGui::DockBuilderFinish(dockSpaceId);

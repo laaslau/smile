@@ -8,7 +8,7 @@ namespace My::CvLib
 	static constexpr char FACE[]{ "haarcascade_frontalface_default.xml" };
 	static constexpr char SMILE[]{ "haarcascade_smile.xml" };
 
-	SmileDetector::SmileDetector() 
+	SmileDetector::SmileDetector(My::Common::IStreamData* data) : m_streamData{ data }
 	{ 
 		loadData();
 		start(); 
@@ -105,7 +105,8 @@ namespace My::CvLib
 
 			};
 
-
+			m_streamData->setFaces(static_cast<int>(faces.size()));
+			m_streamData->setSmiles(static_cast<int>(smiles.size()));
 		}
 		
 		procColor.copyTo(m_mat);

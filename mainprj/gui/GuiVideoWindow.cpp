@@ -36,11 +36,11 @@ namespace My::Gui
 		float frrt = m_videoIn->frameRate();
 		if (frrt)
 		{
-			ImGui::Text("Application average: %.3f ms/frame (%.1f FPS). Video %.1f", 1000.0f / frameRate, frameRate, frrt);
+			ImGui::Text("Render: %.3f ms/frame (%.1f FPS). Video %.1f", 1000.0f / frameRate, frameRate, frrt);
 		}
 		else
 		{
-			ImGui::Text("Application average: %.3f ms/frame (%.1f FPS).", 1000.0f / frameRate, frameRate);
+			ImGui::Text("Render: %.3f ms/frame (%.1f FPS).", 1000.0f / frameRate, frameRate);
 			ImGui::SameLine();
 			ImSpinner::SpinnerFadeBars("##SpinnerFadeBars", 4, 8, { 1.f, 1.f, 1.f, 1.f }, 6.f, 10, true);
 		}
