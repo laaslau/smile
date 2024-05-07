@@ -15,7 +15,8 @@ The smile detection result shown in result window (simile or no so smile icon).
 - Visual Studio 17 2022
 
 Use standard build usnng CMAKE.
-**NB!!! It neccessary to update **
+**NB!!! It neccessary to update set(OpenCV_DIR path to opencv installation folder) in CMakeLists in cvlib folder.**
+Also cmake --install . needed to copy the neccesary files to running folder 
 
 # solution & projects
 Solution divided into projects:
