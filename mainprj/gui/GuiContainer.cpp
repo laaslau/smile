@@ -324,18 +324,6 @@ namespace My::Gui
 		::UnregisterClassW(m_wc.lpszClassName, m_wc.hInstance);
 	}
 
-	void GuiContainer::cleanRenderables()
-	{
-		for (auto& r : m_collection)
-		{
-			if (r.second)
-			{
-				delete r.second;
-				r.second = nullptr;
-			}
-		}
-	}
-
 	void GuiContainer::startFrameRender()
 	{
 		ImGui_ImplDX11_NewFrame();
@@ -403,11 +391,6 @@ namespace My::Gui
 
 	void GuiContainer::remove(const std::string& name)
 	{
-		if (!m_collection.contains(name))
-		{
-			return;
-		}
-		delete m_collection[name];
 		m_collection.erase(name);
 	}
 

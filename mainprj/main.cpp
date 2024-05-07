@@ -19,8 +19,11 @@ static int mine()
 
 	My::Gui::GuiContainer container("cvbench", "1.0.0.0");
 
-	container.add("main", new My::Gui::MainWindow(&container, My::CvLib::getStreamData(), My::CvLib::getStreamControl()));
-	container.add("video", new My::Gui::VideoWindow("Video", My::CvLib::getVideoSource()));
+	My::Gui::MainWindow mainW(&container, My::CvLib::getStreamData(), My::CvLib::getStreamControl());
+	My::Gui::VideoWindow videoW("Video", My::CvLib::getVideoSource());
+
+	container.add("main", &mainW);
+	container.add("video", &videoW);
 
 	while (container.render()) {}
 	

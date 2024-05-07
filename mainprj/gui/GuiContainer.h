@@ -94,8 +94,6 @@ namespace My::Gui
 		void startThread();
 		void stopThread();
 
-
-		void cleanRenderables();
 	};
 
 
