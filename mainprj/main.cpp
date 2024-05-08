@@ -23,7 +23,7 @@ static int mine()
 	My::Gui::MainWindow mainW(&container, My::CvLib::getStreamData(), My::CvLib::getStreamControl());
 	My::Gui::VideoWindow videoW("Video", My::CvLib::getVideoSource());
 	My::Gui::VideoWindow videoS("Smile", My::CvLib::getSmiledSource());
-	My::Gui::ResultWindow videoR(My::CvLib::getSmilePictogram());
+	My::Gui::ResultWindow videoR(My::CvLib::getStreamData(), My::CvLib::getSmilePictogram());
 
 	container.add("main", &mainW);
 	container.add("video", &videoW);

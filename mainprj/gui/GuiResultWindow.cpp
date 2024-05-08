@@ -13,7 +13,7 @@ namespace My::Gui
 	//
 	//
 	///////////////////////////////////////////////////////////////////////////////////////////////////
-	ResultWindow::ResultWindow(My::Common::IVideoSource* pic) : m_pic{pic},
+	ResultWindow::ResultWindow(My::Common::IStreamData* streamData, My::Common::IVideoSource* pic) : m_pic{ pic }, m_streamData{streamData},
 		m_imageRender{ GuiContainer::m_d3d.g_pd3dDevice, pic }
 	{
 	}
@@ -35,9 +35,16 @@ namespace My::Gui
 		}
 
 		ImGui::Begin(m_name.c_str());
-
 		const auto& ic = imageCoord();
-		m_imageRender.render(ic.x, ic.y, ic.z, ic.w);
+		if (m_streamData->getFaces() > 0)
+		{
+			m_imageRender.render(ic.x, ic.y, ic.z, ic.w);
+		}
+		else
+		{
+			ImGui::SetCursorPos({ ic.x, ic.y + ic.w });
+		}
+
 
 		ImGui::Separator();
 		auto frameRate = ImGui::GetIO().Framerate;

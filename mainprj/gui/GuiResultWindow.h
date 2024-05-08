@@ -23,11 +23,12 @@ namespace My::Gui
 		void initialPosition();
 		ImageRender m_imageRender;
 
-		My::Common::IVideoSource* m_pic;
+		My::Common::IVideoSource* m_pic{};
+		My::Common::IStreamData* m_streamData{};
 
 	public:
 
-		ResultWindow(My::Common::IVideoSource* pic);
+		ResultWindow(My::Common::IStreamData* streamData, My::Common::IVideoSource* pic);
 
 		bool render() override;
 
