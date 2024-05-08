@@ -5,7 +5,7 @@ Simple demonstration of using opnecv libraries and Dear ImGui.
 It will open camera (or any other) stream, apply smile detection in face region (if such recognized). 
 The haarcascade_frontalface_default.xml and  haarcascade_smile.xml used (both are part of opencv installation).
 The result of processing shown in separate window and also in the one where original vidoe run.
-The smile detection result shown in result window (simile or no so smile icon).
+The smile detection result shown in result window (simile or not so smile icon).
 
 # build
 **preconditions:**
