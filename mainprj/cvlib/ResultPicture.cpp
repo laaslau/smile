@@ -9,20 +9,16 @@ namespace My::CvLib
 		load();
 	}
 
-	std::tuple<uint8_t*, uint32_t, uint32_t> ResultPicture::getPic(bool smile)
+	std::tuple<uint8_t*, uint32_t, uint32_t> ResultPicture::getPic(bool smile, int row)
 	{
-		if (smile)
-		{
-			return { m_matSmile.ptr<uchar>(0), static_cast<uint32_t>(m_matSmile.cols), static_cast<uint32_t>(m_matSmile.rows) };
-		}
-		return { m_matSerious.ptr<uchar>(0), static_cast<uint32_t>(m_matSerious.cols), static_cast<uint32_t>(m_matSerious.rows) };
-
+		int col = smile ? 0 : 1;
+		return { m_mat[col][row].ptr<uchar>(0), static_cast<uint32_t>(m_mat[col][row].cols), static_cast<uint32_t>(m_mat[col][row].rows) };
 	}
 
 	
 	bool ResultPicture::frame(My::Common::frameCallback callback)
 	{
-		if (m_data->getFaces() == 0)
+		if (m_data->getFaceDir() == std::nullopt)
 		{
 			return false;
 		}
@@ -43,8 +39,9 @@ namespace My::CvLib
 		}
 
 		m_smiled = smiledNow;
-		auto [p, w, h] = getPic(smiledNow);
-		callback(smiledNow ? 5 : 10, p, w, h);
+		int row = (ANIM_ROWS * *m_data->getFaceDir()) / 100;
+		auto [p, w, h] = getPic(smiledNow, row);
+		callback((smiledNow ? 1 : 2) * row, p, w, h);
 		return true;
 	}
 
@@ -64,21 +61,19 @@ namespace My::CvLib
 			return false;
 		}
 
-		int midpoint = image.cols / 2;
+		int colWidth = image.cols / ANIM_COLUMNS;
+		int rowHeigh = image.rows / ANIM_ROWS;
 
-
-		cv::Rect leftHalf(0, 0, midpoint, image.rows);
-		cv::Rect rightHalf(midpoint, 0, image.cols - midpoint, image.rows);
-
-		m_matSmile = image(leftHalf);
-		m_matSerious = image(rightHalf);
-
-
-		cv::cvtColor(m_matSmile, m_matSmile, cv::COLOR_BGR2BGRA);
-		cv::cvtColor(m_matSerious, m_matSerious, cv::COLOR_BGR2BGRA);
-
+		for (int c = 0; c < ANIM_COLUMNS; c++)
+		{
+			for (int r = 0; r < ANIM_ROWS; r++)
+			{
+				cv::Rect part(c * colWidth, r * rowHeigh, colWidth, rowHeigh);
+				int destRow = ANIM_ROWS - r - 1;
+				cv::cvtColor(image(part), m_mat[c][destRow], cv::COLOR_BGR2BGRA);
+			}
+		}
 		return true;
-
 	}
 
 

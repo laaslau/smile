@@ -12,7 +12,7 @@ namespace My::CvLib
 	class StreamData : public IStreamData
 	{
 		mutable std::mutex m_mtx;
-		int m_faces{};
+		std::optional<int> m_face{};
 		int m_smiles{};
 
 		StringList m_streamNames;
@@ -25,8 +25,8 @@ namespace My::CvLib
 		const StringList& getStreamNames() const override;
 
 
-		const int getFaces() const override;
-		void setFaces(int f) override;
+		const std::optional<int> getFaceDir() const override;
+		void setFaceDir(std::optional<int> f) override;
 
 		const int getSmiles() const override;
 		void setSmiles(int s) override;

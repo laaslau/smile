@@ -77,22 +77,36 @@ namespace My::CvLib
 		}
 		cv::Mat proc;
 		cv::Mat procColor;
-		std::vector<cv::Rect> faces;
-		std::vector<cv::Rect> smiles;
+		
+		cv::Rect maxFace{};
+		std::vector<cv::Rect> maxSmiles;
 
 		cv::cvtColor(m_inputMat, proc, cv::COLOR_BGR2GRAY);
 		
 		{
 			My::Toolbox::unlocker ulock(lock);
-			
+			std::vector<cv::Rect> faces;
+			std::vector<cv::Rect> smiles;
+
 			cv::cvtColor(proc, procColor, cv::COLOR_GRAY2BGRA);
 
 			m_faceCascade.detectMultiScale(proc, faces, 1.3, 5);
+
+			
+
 			for (const auto& rect : faces)
 			{
+
 				cv::Mat faceMat = proc(rect);
 				
 				m_smileCascade.detectMultiScale(faceMat, smiles, 1.8, 20);
+
+				if (maxFace.area() < rect.area())
+				{
+					maxFace = rect;
+					maxSmiles = smiles | std::views::transform([&rect](auto s) { s.x += rect.x; s.y += rect.y; return s; }) | std::ranges::to<std::vector<cv::Rect>>();
+
+				}
 
 				for (auto& smile : smiles)
 				{
@@ -102,15 +116,21 @@ namespace My::CvLib
 				}
 
 				rectangle(procColor, rect, cv::Scalar(0, 255, 0, 255), 4, 8, 0);
+				 
+			}
 
-			};
-
-			m_streamData->setFaces(static_cast<int>(faces.size()));
-			m_streamData->setSmiles(static_cast<int>(smiles.size()));
+			if (maxFace.width && proc.cols)
+			{
+				float p = static_cast<float>(maxFace.x + maxFace.width / 2) / static_cast<float>(proc.cols);
+				auto horCent = static_cast<int>(p * 100);
+				m_streamData->setFaceDir({ horCent });
+			}
+			
+			m_streamData->setSmiles(static_cast<int>(maxSmiles.size()));
 		}
 		
 		procColor.copyTo(m_mat);
-		m_smiles = smiles;
+		m_smiles = maxSmiles;
 		m_frameId++;
 		m_rate.hit();
 		return true;

@@ -69,16 +69,16 @@ namespace My::CvLib
 		return m_streamNames;
 	}
 
-	const int StreamData::getFaces() const
+	const std::optional<int> StreamData::getFaceDir() const
 	{
 		std::lock_guard l(m_mtx);
-		return m_faces;
+		return m_face;
 	}
 
-	void StreamData::setFaces(int f)
+	void StreamData::setFaceDir(std::optional<int> f)
 	{
 		std::lock_guard l(m_mtx);
-		m_faces = f;
+		m_face = f;
 	}
 
 	const int StreamData::getSmiles() const

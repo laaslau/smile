@@ -36,7 +36,7 @@ namespace My::Gui
 
 		ImGui::Begin(m_name.c_str());
 		const auto& ic = imageCoord();
-		if (m_streamData->getFaces() > 0)
+		if (m_streamData->getFaceDir())
 		{
 			m_imageRender.render(ic.x, ic.y, ic.z, ic.w);
 		}
