@@ -104,7 +104,7 @@ namespace My::CvLib
 				if (maxFace.area() < rect.area())
 				{
 					maxFace = rect;
-					maxSmiles = smiles | std::views::transform([&rect](auto s) { s.x += rect.x; s.y += rect.y; return s; }) | std::ranges::to<std::vector<cv::Rect>>();
+					maxSmiles = std::views::transform(smiles, [&rect](auto s) { s.x += rect.x; s.y += rect.y; return s; }) | std::ranges::to<std::vector<cv::Rect>>();
 
 				}
 
