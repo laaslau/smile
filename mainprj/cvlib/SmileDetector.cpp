@@ -61,6 +61,7 @@ namespace My::CvLib
 
 	int SmileDetector::addContours(cv::Mat& frame) const
 	{
+		std::lock_guard lock(m_mtx);
 		for (const auto& smile : m_smiles)
 		{
 			rectangle(frame, smile, cv::Scalar(0, 0, 255, 255), 4, 8, 0);
