@@ -81,16 +81,22 @@ namespace My::CvLib
 		m_face = f;
 	}
 
-	const int StreamData::getSmiles() const
+	const bool StreamData::getSmiling() const
 	{
-		std::lock_guard l(m_mtx);
-		return m_smiles;
+		return m_smiling.test();
 	}
 
-	void StreamData::setSmiles(int s)
+	void StreamData::setSmiling(bool s)
 	{
-		std::lock_guard l(m_mtx);
-		m_smiles = s;
+		if (s)
+		{
+			m_smiling.test_and_set();
+		}
+		else
+		{
+			m_smiling.clear();
+		}
+		
 	}
 
 	void StreamData::setStreamName(const std::string& name)

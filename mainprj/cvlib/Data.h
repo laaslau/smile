@@ -13,7 +13,7 @@ namespace My::CvLib
 	{
 		mutable std::mutex m_mtx;
 		std::optional<int> m_face{};
-		int m_smiles{};
+		std::atomic_flag m_smiling{};
 
 		StringList m_streamNames;
 		void store();
@@ -28,8 +28,8 @@ namespace My::CvLib
 		const std::optional<int> getFaceDir() const override;
 		void setFaceDir(std::optional<int> f) override;
 
-		const int getSmiles() const override;
-		void setSmiles(int s) override;
+		const bool getSmiling() const override;
+		void setSmiling(bool s) override;
 	};
 
 	class StreamControl : public IStreamControl

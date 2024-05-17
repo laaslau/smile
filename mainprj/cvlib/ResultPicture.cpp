@@ -22,10 +22,8 @@ namespace My::CvLib
 		{
 			return false;
 		}
-
-		bool smiledNow = (m_data->getSmiles() > 0);
-
-		if (smiledNow)
+		m_smiled = m_data->getSmiling();
+		if (m_smiled)
 		{
 			m_smiledTime = std::chrono::steady_clock::now();
 		}
@@ -34,14 +32,14 @@ namespace My::CvLib
 			using namespace std::chrono_literals;
 			if (std::chrono::steady_clock::now() - m_smiledTime < 1000ms)
 			{
-				smiledNow = true;
+				m_smiled = true;
 			}
 		}
 
-		m_smiled = smiledNow;
+		
 		int row = (ANIM_ROWS * *m_data->getFaceDir()) / 100;
-		auto [p, w, h] = getPic(smiledNow, row);
-		callback((smiledNow ? 1 : 2) * row, p, w, h);
+		auto [p, w, h] = getPic(m_smiled, row);
+		callback((m_smiled ? 1 : 2) * row, p, w, h);
 		return true;
 	}
 

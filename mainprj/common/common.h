@@ -21,8 +21,8 @@ namespace My::Common
 		virtual const std::optional<int> getFaceDir() const = 0;
 		virtual void setFaceDir(std::optional<int> f) = 0;
 
-		virtual const int getSmiles() const = 0;
-		virtual void setSmiles(int s) = 0;
+		virtual const bool getSmiling() const = 0;
+		virtual void setSmiling(bool s) = 0;
 
 	};
 

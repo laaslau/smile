@@ -2,6 +2,8 @@
 #include <vector>
 #include <ranges>
 #include <filesystem>
+#include <cmath>
+#include <algorithm>
 
 namespace My::CvLib
 {
@@ -9,14 +11,14 @@ namespace My::CvLib
 	static constexpr char SMILE[]{ "haarcascade_smile.xml" };
 
 	SmileDetector::SmileDetector(My::Common::IStreamData* data) : m_streamData{ data }
-	{ 
+	{
 		loadData();
-		start(); 
+		start();
 	}
 
-	SmileDetector::~SmileDetector() 
-	{ 
-		stop(); 
+	SmileDetector::~SmileDetector()
+	{
+		stop();
 	}
 
 	bool SmileDetector::loadData()
@@ -69,6 +71,11 @@ namespace My::CvLib
 		return static_cast<int>(m_smiles.size());
 	}
 
+	namespace
+	{
+		cv::Rect& operator  << (cv::Rect& me, const cv::Rect& another) { me.x += another.x; me.y += another.y; return me; }
+	}
+
 
 	bool SmileDetector::onDataApplied(std::unique_lock<std::mutex>& lock)
 	{
@@ -78,60 +85,38 @@ namespace My::CvLib
 		}
 		cv::Mat proc;
 		cv::Mat procColor;
-		
-		cv::Rect maxFace{};
-		std::vector<cv::Rect> maxSmiles;
+
 
 		cv::cvtColor(m_inputMat, proc, cv::COLOR_BGR2GRAY);
-		
+
 		{
 			My::Toolbox::unlocker ulock(lock);
-			std::vector<cv::Rect> faces;
-			std::vector<cv::Rect> smiles;
 
 			cv::cvtColor(proc, procColor, cv::COLOR_GRAY2BGRA);
 
+			std::vector<cv::Rect> faces;
 			m_faceCascade.detectMultiScale(proc, faces, 1.3, 5);
+			std::ranges::sort(faces, [](const auto& f1, const auto& f2) {return f1.area() > f2.area(); });
 
-			
-
-			for (const auto& rect : faces)
+			for (const auto [inx, rect] : faces | std::views::enumerate)
 			{
+				std::vector<cv::Rect> smiles;
+				m_smileCascade.detectMultiScale(proc(rect), smiles, 1.8, 20);
 
-				cv::Mat faceMat = proc(rect);
-				
-				m_smileCascade.detectMultiScale(faceMat, smiles, 1.8, 20);
-
-				if (maxFace.area() < rect.area())
-				{
-					maxFace = rect;
-					maxSmiles = std::views::transform(smiles, [&rect](auto s) { s.x += rect.x; s.y += rect.y; return s; }) | std::ranges::to<std::vector<cv::Rect>>();
-
-				}
-
-				for (auto& smile : smiles)
-				{
-					smile.x += rect.x;
-					smile.y += rect.y;
-					rectangle(procColor, smile, cv::Scalar(0, 0, 255, 255), 4, 8, 0);
-				}
-
+				std::ranges::for_each(smiles, [&procColor, &rect](auto& smile) { rectangle(procColor, smile << rect, cv::Scalar(0, 0, 255, 255), 4, 8, 0); });
 				rectangle(procColor, rect, cv::Scalar(0, 255, 0, 255), 4, 8, 0);
-				 
-			}
 
-			if (maxFace.width && proc.cols)
-			{
-				float p = static_cast<float>(maxFace.x + maxFace.width / 2) / static_cast<float>(proc.cols);
-				auto horCent = static_cast<int>(p * 100);
-				m_streamData->setFaceDir({ horCent });
+				if (inx == 0)
+				{
+					auto horCent = static_cast<int>((static_cast<float>(rect.x + rect.width / 2) / static_cast<float>(proc.cols)) * 100);
+					m_streamData->setFaceDir({ horCent });
+					m_streamData->setSmiling(!smiles.empty());
+					m_smiles = smiles;
+				}
 			}
-			
-			m_streamData->setSmiles(static_cast<int>(maxSmiles.size()));
 		}
-		
+
 		procColor.copyTo(m_mat);
-		m_smiles = maxSmiles;
 		m_frameId++;
 		m_rate.hit();
 		return true;
